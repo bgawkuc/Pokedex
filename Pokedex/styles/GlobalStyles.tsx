@@ -23,12 +23,12 @@ export default StyleSheet.create({
   },
   name: {
     color: 'white',
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
     justifyContent: 'center',
     fontWeight: '700',
     textTransform: 'capitalize',
-    marginTop: 20,
+    marginTop: 30,
   },
   info: {
     display: 'flex',

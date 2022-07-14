@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PokemonDetailedCardScreen from './components/PokemonDetailedCardScreen';
 import PokemonCard from './components/PokemonCard';
-import FavouritePokemon from './components/FavouritePokemon';
+import FavouritePokemon from './components/PokemonFavourite';
 import PokemonMap from './components/PokemonMap';
 
 const Stack = createNativeStackNavigator();
@@ -33,5 +33,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-// const styles = StyleSheet.create({});
