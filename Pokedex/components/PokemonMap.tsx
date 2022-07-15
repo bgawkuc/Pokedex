@@ -5,8 +5,6 @@ import {Marker} from 'react-native-maps';
 import {PokemonMarker} from '../models/PokemonMarker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// ladosh
-
 export default function PokemonMap(this: any) {
   const [markers, setMarkers] = useState<PokemonMarker[]>([]);
   const [selectedPokemon, setSelectedPokemon] = useState('');

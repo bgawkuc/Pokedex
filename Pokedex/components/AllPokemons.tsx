@@ -17,26 +17,18 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 import {faEarthAsia} from '@fortawesome/free-solid-svg-icons/faEarthAsia';
 import {RootStackParamList} from '../App';
+import {ApiUrls} from '../api-urls/ApiUrls';
 
 export default function AllPokemons() {
-  const url = 'https://pokeapi.co/api/v2/pokemon?limit=5&offset=';
   const [allPokemons, setAllPokemons] = useState<Pokemon[]>([]);
-  const [count, setCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const loadMorePokemons = async () => {
-    if (isLoading && count < 1155) {
-      setCount(count + 5);
-      const res = await axios.get(url + `${count}`);
-      setAllPokemons([...allPokemons, ...res.data.results]);
-      setIsLoading(false);
-    }
-  };
+  const [url, setUrl] = useState(ApiUrls.FIVE_FIRST_POKEMONS_URL);
 
   const loadPokemons = async () => {
-    const res = await axios.get(url + '0');
-    setCount(count + 5);
-    setAllPokemons(res.data.results);
+    const res = await axios.get(url);
+    if (res !== null) {
+      setAllPokemons([...allPokemons, ...res.data.results]);
+      setUrl(res.data.next);
+    }
   };
 
   useEffect(() => {
@@ -75,11 +67,8 @@ export default function AllPokemons() {
               <PokemonCard name={pokemon.name} url={pokemon.url} />
             )}
             keyExtractor={pokemon => pokemon.name}
-            onEndReached={loadMorePokemons}
+            onEndReached={loadPokemons}
             onEndReachedThreshold={-0.1}
-            onScrollBeginDrag={() => {
-              setIsLoading(true);
-            }}
           />
         </View>
       )}

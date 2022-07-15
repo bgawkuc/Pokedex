@@ -8,6 +8,7 @@ import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 import GlobalStyles from '../styles/GlobalStyles';
 import {PokemonDetails} from '../models/PokemonDetails';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ApiUrls} from '../api-urls/ApiUrls';
 
 const FAVOURITE_KEY = 'favourite';
 
@@ -83,7 +84,7 @@ export default function PokemonInformation(props: any) {
   }, [getFavourite, getPokemon]);
 
   const pokemonImg = (id: string) =>
-    `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${id}.png?raw=true`;
+    ApiUrls.IMAGE_URL_START + `${id}` + ApiUrls.IMAGE_URL_END;
 
   return (
     <View>

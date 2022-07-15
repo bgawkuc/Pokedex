@@ -6,24 +6,24 @@ import axios from 'axios';
 import {PokemonDetails} from '../models/PokemonDetails';
 import {Pokemon} from '../models/Pokemon';
 import {RootStackParamList} from '../App';
+import {ApiUrls} from '../api-urls/ApiUrls';
 
 export default function PokemonCard({name, url}: Pokemon) {
-  const pokemonDetailsLink = `https://pokeapi.co/api/v2/pokemon/${name}`;
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails | null>(
     null,
   );
 
   function pokemonImg() {
-    const id = url.split('/')[url.split('/').length - 2];
-    return `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${id}.png?raw=true`;
+    if (pokemonDetails !== null)
+      return (
+        ApiUrls.IMAGE_URL_START + `${pokemonDetails.id}` + ApiUrls.IMAGE_URL_END
+      );
   }
 
   const loadPokemonDetails = useCallback(async () => {
-    if (pokemonDetailsLink !== null) {
-      const res = await axios.get(pokemonDetailsLink);
-      setPokemonDetails(res.data);
-    }
-  }, [pokemonDetailsLink]);
+    const res = await axios.get(url);
+    setPokemonDetails(res.data);
+  }, [url]);
 
   useEffect(() => {
     loadPokemonDetails();
