@@ -34,15 +34,31 @@ export default function App() {
             backgroundColor: '#a69995',
           },
           headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 20,
+          },
         }}>
-        <Stack.Screen name="Pokedex" component={AllPokemons} />
-        <Stack.Screen name="FavouritePokemon" component={FavouritePokemon} />
+        <Stack.Screen
+          name="Pokedex"
+          component={AllPokemons}
+          options={{title: 'Pokedex'}}
+        />
+        <Stack.Screen
+          name="FavouritePokemon"
+          component={FavouritePokemon}
+          options={{title: 'Favourite pokemon'}}
+        />
         <Stack.Screen name="PokemonCard" component={PokemonCard} />
         <Stack.Screen
           name="PokemonDetailedCard"
           component={PokemonDetailedCard}
+          options={{title: 'Pokemon details'}}
         />
-        <Stack.Screen name="PokemonMap" component={PokemonMap} />
+        <Stack.Screen
+          name="PokemonMap"
+          component={PokemonMap}
+          options={{title: 'Pokemon map'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
