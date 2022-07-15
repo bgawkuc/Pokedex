@@ -10,20 +10,13 @@ import axios from 'axios';
 
 import PokemonCard from './PokemonCard';
 import {Pokemon} from '../models/Pokemon';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 import {faEarthAsia} from '@fortawesome/free-solid-svg-icons/faEarthAsia';
-
-type RootStackParamList = {
-  FavouritePokemon: {};
-};
-
-type RootStackParamList2 = {
-  PokemonMap: {};
-};
+import {RootStackParamList} from '../App';
 
 export default function AllPokemons() {
   const url = 'https://pokeapi.co/api/v2/pokemon?limit=5&offset=';
@@ -50,26 +43,15 @@ export default function AllPokemons() {
     loadPokemons();
   }, []);
 
-  // favourite route
+  // navigation
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const loadFavouritePokemon = () => {
-    navigation.dispatch(
-      CommonActions.navigate({
-        name: 'FavouritePokemon',
-      }),
-    );
+    navigation.navigate('FavouritePokemon');
   };
 
-  // map route
-  const navigation2 = useNavigation<StackNavigationProp<RootStackParamList2>>();
-
   const loadPokemonMap = () => {
-    navigation2.dispatch(
-      CommonActions.navigate({
-        name: 'PokemonMap',
-      }),
-    );
+    navigation.navigate('PokemonMap');
   };
 
   return (

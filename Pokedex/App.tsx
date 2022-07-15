@@ -3,12 +3,26 @@ import React from 'react';
 import AllPokemons from './components/AllPokemons';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import PokemonDetailedCardScreen from './components/PokemonDetailedCardScreen';
+import PokemonDetailedCard from './components/PokemonDetailedCard';
 import PokemonCard from './components/PokemonCard';
 import FavouritePokemon from './components/PokemonFavourite';
 import PokemonMap from './components/PokemonMap';
+import {Type} from './models/PokemonDetails';
 
 const Stack = createNativeStackNavigator();
+
+export type RootStackParamList = {
+  FavouritePokemon: undefined;
+  PokemonMap: undefined;
+  PokemonDetailedCard: {
+    name: string;
+    height: number;
+    weight: number;
+    base_experience: number;
+    id: string;
+    types: Type[];
+  };
+};
 
 export default function App() {
   return (
@@ -25,8 +39,8 @@ export default function App() {
         <Stack.Screen name="FavouritePokemon" component={FavouritePokemon} />
         <Stack.Screen name="PokemonCard" component={PokemonCard} />
         <Stack.Screen
-          name="PokemonDetailedCardScreen"
-          component={PokemonDetailedCardScreen}
+          name="PokemonDetailedCard"
+          component={PokemonDetailedCard}
         />
         <Stack.Screen name="PokemonMap" component={PokemonMap} />
       </Stack.Navigator>

@@ -3,39 +3,15 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
-import {PokemonDetails, Type} from '../models/PokemonDetails';
+import {PokemonDetails} from '../models/PokemonDetails';
 import {Pokemon} from '../models/Pokemon';
-
-type RootStackParamList = {
-  PokemonDetailedCardScreen: {
-    name: string;
-    height: number;
-    weight: number;
-    base_experience: number;
-    id: string;
-    types: Type[];
-  };
-};
+import {RootStackParamList} from '../App';
 
 export default function PokemonCard({name, url}: Pokemon) {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const pokemonDetailsLink = `https://pokeapi.co/api/v2/pokemon/${name}`;
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails | null>(
     null,
   );
-
-  const loadOnePokemon = () => {
-    if (pokemonDetails !== null) {
-      navigation.navigate('PokemonDetailedCardScreen', {
-        name: pokemonDetails.name,
-        height: pokemonDetails.height,
-        weight: pokemonDetails.weight,
-        base_experience: pokemonDetails.base_experience,
-        id: pokemonDetails.id,
-        types: pokemonDetails.types,
-      });
-    }
-  };
 
   function pokemonImg() {
     const id = url.split('/')[url.split('/').length - 2];
@@ -52,6 +28,22 @@ export default function PokemonCard({name, url}: Pokemon) {
   useEffect(() => {
     loadPokemonDetails();
   }, [loadPokemonDetails]);
+
+  // navigation
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const loadOnePokemon = () => {
+    if (pokemonDetails !== null) {
+      navigation.navigate('PokemonDetailedCard', {
+        name: pokemonDetails.name,
+        height: pokemonDetails.height,
+        weight: pokemonDetails.weight,
+        base_experience: pokemonDetails.base_experience,
+        id: pokemonDetails.id,
+        types: pokemonDetails.types,
+      });
+    }
+  };
 
   return (
     <View style={styles.card}>
