@@ -6,7 +6,7 @@ import {faScaleBalanced} from '@fortawesome/free-solid-svg-icons/faScaleBalanced
 import {faClock} from '@fortawesome/free-solid-svg-icons/faClock';
 import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 import GlobalStyles from '../styles/GlobalStyles';
-import {PokemonDetails} from '../models/PokemonDetails';
+import {PokemonDetails, Type} from '../models/PokemonDetails';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ApiUrls} from '../api-urls/ApiUrls';
 
@@ -91,6 +91,7 @@ export default function PokemonInformation(props: any) {
       {pokemon !== undefined && pokemon !== null ? (
         <View style={GlobalStyles.card}>
           <Text style={GlobalStyles.name}>{pokemon.name} </Text>
+
           <View style={GlobalStyles.imgContainer}>
             <Image
               style={GlobalStyles.img}
@@ -100,50 +101,78 @@ export default function PokemonInformation(props: any) {
             />
           </View>
 
-          <View style={GlobalStyles.info}>
-            <View style={GlobalStyles.infoRow}>
-              <FontAwesomeIcon
-                icon={faRulerVertical}
-                color={'white'}
-                size={20}
-              />
-              <Text style={GlobalStyles.infoElement}>{pokemon.height}</Text>
-            </View>
-            <View style={GlobalStyles.infoRow}>
-              <FontAwesomeIcon
-                icon={faScaleBalanced}
-                color={'white'}
-                size={20}
-              />
-              <Text style={GlobalStyles.infoElement}>{pokemon.weight}</Text>
-            </View>
-            <View style={GlobalStyles.infoRow}>
-              <FontAwesomeIcon icon={faClock} color={'white'} size={20} />
-              <Text style={GlobalStyles.infoElement}>
-                {pokemon.base_experience}
-              </Text>
-            </View>
-          </View>
-          {props.pokemon !== undefined ? (
-            <View>
-              <TouchableHighlight onPress={changeFavouritePokemon}>
-                <View style={GlobalStyles.favBtn}>
-                  {favouritePokemon !== null &&
-                  favouritePokemon.name === pokemon.name ? (
-                    <FontAwesomeIcon icon={faHeart} color={'red'} size={30} />
-                  ) : (
-                    <FontAwesomeIcon icon={faHeart} color={'green'} size={30} />
-                  )}
+          <View style={GlobalStyles.cardDetails}>
+            <View style={[GlobalStyles.type, GlobalStyles.cardElement]}>
+              {pokemon.types.map((el: Type) => (
+                <View
+                  key={el.type.name}
+                  style={GlobalStyles.typeNameBackground}>
+                  <Text style={GlobalStyles.typeName}>{el.type.name}</Text>
                 </View>
-              </TouchableHighlight>
+              ))}
             </View>
-          ) : (
-            <View style={GlobalStyles.favBtn}>
-              <TouchableHighlight onPress={deleteFavourite}>
-                <FontAwesomeIcon icon={faHeart} color={'red'} size={30} />
-              </TouchableHighlight>
+
+            <Text style={[GlobalStyles.about, GlobalStyles.cardElement]}>
+              About
+            </Text>
+
+            <View style={[GlobalStyles.info, GlobalStyles.cardElement]}>
+              <View style={GlobalStyles.infoCol}>
+                <View style={GlobalStyles.infoRow}>
+                  <FontAwesomeIcon icon={faRulerVertical} size={20} />
+                  <Text style={GlobalStyles.infoRowValue}>
+                    {pokemon.height}
+                  </Text>
+                </View>
+                <Text>Height</Text>
+              </View>
+
+              <View style={GlobalStyles.infoCol}>
+                <View style={GlobalStyles.infoRow}>
+                  <FontAwesomeIcon icon={faScaleBalanced} size={20} />
+                  <Text style={GlobalStyles.infoRowValue}>
+                    {pokemon.weight}
+                  </Text>
+                </View>
+                <Text>Weight</Text>
+              </View>
+
+              <View style={GlobalStyles.infoCol}>
+                <View style={GlobalStyles.infoRow}>
+                  <FontAwesomeIcon icon={faClock} size={20} />
+                  <Text style={GlobalStyles.infoRowValue}>
+                    {pokemon.base_experience}
+                  </Text>
+                </View>
+                <Text>Experience</Text>
+              </View>
             </View>
-          )}
+
+            {props.pokemon !== undefined ? (
+              <View>
+                <TouchableHighlight onPress={changeFavouritePokemon}>
+                  <View style={[GlobalStyles.favBtn, GlobalStyles.cardElement]}>
+                    {favouritePokemon !== null &&
+                    favouritePokemon.name === pokemon.name ? (
+                      <FontAwesomeIcon icon={faHeart} color={'red'} size={30} />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        color={'green'}
+                        size={30}
+                      />
+                    )}
+                  </View>
+                </TouchableHighlight>
+              </View>
+            ) : (
+              <View style={[GlobalStyles.favBtn, GlobalStyles.cardElement]}>
+                <TouchableHighlight onPress={deleteFavourite}>
+                  <FontAwesomeIcon icon={faHeart} color={'red'} size={30} />
+                </TouchableHighlight>
+              </View>
+            )}
+          </View>
         </View>
       ) : (
         <View style={[GlobalStyles.card, GlobalStyles.emptyCard]}>
