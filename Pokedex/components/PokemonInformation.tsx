@@ -134,7 +134,7 @@ export default function PokemonInformation(props: any) {
                     {pokemon.weight}
                   </Text>
                 </View>
-                <Text>Weight</Text>
+                <Text>Weight </Text>
               </View>
 
               <View style={GlobalStyles.infoCol}>

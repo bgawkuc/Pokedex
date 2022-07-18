@@ -2,6 +2,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableHighlight,
   View,
 } from 'react-native';
@@ -18,10 +19,13 @@ import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 import {faEarthAsia} from '@fortawesome/free-solid-svg-icons/faEarthAsia';
 import {RootStackParamList} from '../App';
 import {ApiUrls} from '../api-urls/ApiUrls';
+import {Input} from 'react-native-elements';
 
 export default function AllPokemons() {
   const [allPokemons, setAllPokemons] = useState<Pokemon[]>([]);
   const [url, setUrl] = useState(ApiUrls.FIVE_FIRST_POKEMONS_URL);
+  const [searchPokemon, setSearchPokemon] = useState<Pokemon[]>([]);
+  const [searchWorking, setSearchWorking] = useState(false);
 
   const loadPokemons = async () => {
     const res = await axios.get(url);
@@ -46,6 +50,19 @@ export default function AllPokemons() {
     navigation.navigate('PokemonMap');
   };
 
+  // search bar (search only through loaded pokemons)
+  const handleSearch = (text: string) => {
+    text.length > 0 ? setSearchWorking(true) : setSearchWorking(false);
+    const filteredData: Pokemon[] = [];
+
+    allPokemons.map((pokemon: Pokemon) => {
+      if (pokemon.name.includes(text)) {
+        filteredData.push(pokemon);
+      }
+    });
+    setSearchPokemon(filteredData);
+  };
+
   return (
     <View>
       {allPokemons.length === 0 ? (
@@ -61,8 +78,17 @@ export default function AllPokemons() {
             </TouchableHighlight>
           </View>
 
+          <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={text => handleSearch(text)}
+            placeholder="Search"
+            clearButtonMode="always"
+            style={styles.searchBar}
+          />
+
           <FlatList
-            data={allPokemons}
+            data={searchWorking ? searchPokemon : allPokemons}
             renderItem={({item: pokemon}) => (
               <PokemonCard name={pokemon.name} url={pokemon.url} />
             )}
@@ -83,5 +109,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 20,
     marginBottom: 20,
+  },
+  searchBar: {
+    width: '90%',
+    height: 30,
+    fontSize: 16,
+    marginLeft: '5%',
+    marginBottom: 20,
+    textAlign: 'center',
+    borderRadius: 12,
+    backgroundColor: 'white',
   },
 });
